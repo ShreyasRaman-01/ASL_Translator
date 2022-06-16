@@ -55,18 +55,24 @@ class CNN_Model:
 
 
         #path to save weights
-        checkpoint_path = os.path.relpath('./cnn/saved_models')
+        checkpoint_path = os.path.relpath('./saved_models')
+
+        if not os.isdir(checkpoint_path):
+            os.mkdir(checkpoint_path)
 
         num_weights = len(os.listdir(self.checkpoint_path)) + 1
         checkpoint_path = os.path.join(checkpoint_path, 'experiment{}_{epoch}.h5'.format(num_weights) )
 
-        log_dir = os.path.join('./cnn/logs/experiment{}'.format(num_weights))
+        log_dir = os.path.join('./logs/experiment{}'.format(num_weights))
+
+        if not os.isdir(log_dir):
+            os.mkdir(log_dir)
 
         self.tensorboard_callback = callbacks.TensorBoard(log_dir = log_dir, histogram_freq = 1)
 
         self.lr_scheduler_callback = callbacks.LearningRateScheduler(self.lr_scheduler, verbose=0)
 
-        self.cp_callback = callbacks.ModelCheckpoint(filepath=checkpoint_path, monitor='val_loss', verbose=1, save_best_only=True, mode = 'min', save_weights_only=False, save_freq = 'epoch', period = 5)
+        self.cp_callback = callbacks.ModelCheckpoint(filepath=checkpoint_path, monitor='val_loss', verbose=1, save_best_only=True, mode = 'min', save_weights_only=False, save_freq = 'epoch', period = 3)
 
     def lr_scheduler(epoch, lr):
         if epoch < 20:
