@@ -1,6 +1,4 @@
-wget https://www.kaggle.com/datasets/gti-upm/leapgestrecog/download
-
-unzip archive.zip
+unzip asl_non_bbox_3.zip
 mkdir non_bbox_ok
 mv archive non_bbox_ok
-rm archive.zip
+# rm archive.zip
